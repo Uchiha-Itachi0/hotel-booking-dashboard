@@ -24,7 +24,6 @@ const DashboardPage: React.FC = () => {
     if (loading) return (
         <div className="flex items-center justify-center h-screen">
             <div className="text-center">
-                {/* Tailwind spinner */}
                 <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent border-b-transparent rounded-full animate-spin"></div>
                 <p className="mt-4 text-lg">Loading...</p>
             </div>
@@ -36,7 +35,7 @@ const DashboardPage: React.FC = () => {
     return (
         <PageLayout title="Dashboard">
             <div className="p-6 max-w-7xl mx-auto overflow-y-scroll custom-scrollbar h-[80vh] bg-white rounded-2xl shadow-2xl">
-                <div className="sticky top-0 right-0 z-10 flex justify-end mb-6">
+                <div className="sticky z-20 top-0 right-0 flex justify-end mb-6">
                     <div className="bg-white/95 backdrop-blur-sm p-4 rounded-lg shadow-lg">
                         <DateRangePicker
                             dateRange={dateRange}
