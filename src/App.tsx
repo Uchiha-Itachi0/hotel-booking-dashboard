@@ -1,11 +1,20 @@
 import React from 'react';
-import './App.css';
-import Dashboard from "./components/Dashboard";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { routes } from './config/routes';
+import Layout from "./Layout/Navigation";
 
-function App() {
-  return (
-      <Dashboard />
-  );
-}
+const App: React.FC = () => {
+    return (
+        <Router>
+            <Layout>
+                <Routes>
+                    {routes.map(({ path, component: Component }) => (
+                        <Route key={path} path={path} element={<Component />} />
+                    ))}
+                </Routes>
+            </Layout>
+        </Router>
+    );
+};
 
 export default App;

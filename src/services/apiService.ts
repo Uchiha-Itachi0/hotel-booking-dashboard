@@ -1,3 +1,4 @@
+import Papa from 'papaparse';
 
 export interface HotelBooking {
     arrival_date_year: number;
@@ -9,40 +10,80 @@ export interface HotelBooking {
     country: string;
 }
 
-const MOCK_DATA: HotelBooking[] = (() => {
-    const countries = ['USA', 'UK', 'France', 'Germany', 'Spain', 'Italy', 'China', 'Japan', 'Brazil', 'Canada'];
+// Function to parse CSV data and convert to HotelBooking objects
+const parseCSVData = (csvData: string): HotelBooking[] => {
+    const parseResult = Papa.parse(csvData, {
+        header: true,
+        skipEmptyLines: true,
+        transformHeader: (header) => header.trim(),
+        transform: (value) => value.trim()
+    });
+
+    return parseResult.data.map((row: any) => ({
+        arrival_date_year: parseInt(row.arrival_date_year),
+        arrival_date_month: row.arrival_date_month,
+        arrival_date_day_of_month: parseInt(row.arrival_date_day_of_month),
+        adults: parseInt(row.adults),
+        children: parseInt(row.children),
+        babies: parseInt(row.babies),
+        country: row.country
+    }));
+};
+
+// Cache for storing the parsed CSV data
+let bookingsCache: HotelBooking[] | null = null;
+
+export const fetchHotelBookings = async (startDate: string, endDate: string): Promise<HotelBooking[]> => {
+    try {
+        // If data is already cached, return it
+        if (bookingsCache) {
+            return filterBookingsByDateRange(bookingsCache, startDate, endDate);
+        }
+
+        // Fetch CSV file
+        const response = await fetch('/hotel_bookings.csv');
+        if (!response.ok) {
+            throw new Error('Failed to fetch CSV file');
+        }
+
+        const csvText = await response.text();
+        const bookings = parseCSVData(csvText);
+
+        // Sort bookings by date
+        bookingsCache = bookings.sort((a, b) => {
+            const dateA = new Date(a.arrival_date_year, getMonthIndex(a.arrival_date_month), a.arrival_date_day_of_month);
+            const dateB = new Date(b.arrival_date_year, getMonthIndex(b.arrival_date_month), b.arrival_date_day_of_month);
+            return dateA.getTime() - dateB.getTime();
+        });
+
+
+        return filterBookingsByDateRange(bookingsCache, startDate, endDate);
+    } catch (error) {
+        console.error('Error fetching hotel bookings:', error);
+        throw error;
+    }
+};
+
+// Helper function to get month index from month name
+const getMonthIndex = (monthName: string): number => {
     const months = [
         'January', 'February', 'March', 'April', 'May', 'June',
         'July', 'August', 'September', 'October', 'November', 'December'
     ];
+    return months.indexOf(monthName);
+};
 
-    const bookings: HotelBooking[] = [];
+// Helper function to filter bookings by date range
+const filterBookingsByDateRange = (bookings: HotelBooking[], startDate: string, endDate: string): HotelBooking[] => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
 
-    for (let i = 0; i < 1000; i++) {
-        const date = new Date(2024, 0, 1);
-        date.setDate(date.getDate() + Math.floor(Math.random() * 365));
-
-        bookings.push({
-            arrival_date_year: date.getFullYear(),
-            arrival_date_month: months[date.getMonth()],
-            arrival_date_day_of_month: date.getDate(),
-            adults: Math.floor(Math.random() * 4) + 1,
-            children: Math.floor(Math.random() * 3),
-            babies: Math.floor(Math.random() * 2),
-            country: countries[Math.floor(Math.random() * countries.length)]
-        });
-    }
-
-    return bookings.sort((a, b) => {
-        const dateA = new Date(a.arrival_date_year, months.indexOf(a.arrival_date_month), a.arrival_date_day_of_month);
-        const dateB = new Date(b.arrival_date_year, months.indexOf(b.arrival_date_month), b.arrival_date_day_of_month);
-        return dateA.getTime() - dateB.getTime();
+    return bookings.filter(booking => {
+        const bookingDate = new Date(
+            booking.arrival_date_year,
+            getMonthIndex(booking.arrival_date_month),
+            booking.arrival_date_day_of_month
+        );
+        return bookingDate >= start && bookingDate <= end;
     });
-})();
-
-export const fetchHotelBookings = async (startDate: string, endDate: string): Promise<HotelBooking[]> => {
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 500));
-
-    return MOCK_DATA;
 };
