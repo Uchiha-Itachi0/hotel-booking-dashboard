@@ -9,7 +9,7 @@ import { useHotelData } from "../../hooks/useDataHooks";
 const DashboardPage: React.FC = () => {
     const [dateRange, setDateRange] = useState({
         start: '2015-07-01',
-        end: '2024-08-30'
+        end: '2015-08-30'
     });
 
     const { loading, error, filteredData, countryData, totals } = useHotelData(dateRange);

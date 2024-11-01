@@ -1,6 +1,5 @@
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { ChartContainer } from './ChartContainer';
-import React from "react";
 
 interface VisitorChartProps {
     data: any[];

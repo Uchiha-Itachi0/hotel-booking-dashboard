@@ -1,6 +1,6 @@
-import { LineChart, Line, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+// src/components/SparklineChart.tsx
+import { AreaChart, Area, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { ChartContainer } from './ChartContainer';
-import React from "react";
 
 interface SparklineChartProps {
     data: any[];
@@ -19,7 +19,7 @@ export const SparklineChart: React.FC<SparklineChartProps> = ({
         <div className="text-3xl font-bold mb-4">{total}</div>
         <div className="h-24">
             <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={data}>
+                <AreaChart data={data}>
                     <XAxis dataKey="date" hide />
                     <YAxis hide />
                     <Tooltip
@@ -27,14 +27,14 @@ export const SparklineChart: React.FC<SparklineChartProps> = ({
                         labelStyle={{ fontWeight: 'bold' }}
                         formatter={(value) => [`${value}`, `Visitors`]}
                     />
-                    <Line
+                    <Area
                         type="monotone"
                         dataKey={dataKey}
-                        stroke="#2563eb"
+                        stroke="#2563eb" // Dark blue outline
+                        fill="rgba(37, 99, 235, 0.3)" // Light blue fill
                         strokeWidth={2}
-                        dot={false}
                     />
-                </LineChart>
+                </AreaChart>
             </ResponsiveContainer>
         </div>
     </ChartContainer>

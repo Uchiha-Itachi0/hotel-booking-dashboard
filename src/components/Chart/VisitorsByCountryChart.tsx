@@ -15,7 +15,11 @@ export const VisitorsByCountryChart: React.FC<VisitorsByCountryChartProps> = ({ 
                     <XAxis dataKey="country" />
                     <YAxis />
                     <Tooltip />
-                    <Bar dataKey="visitors" fill="#2563eb" />
+                    <Bar
+                        dataKey="visitors"
+                        fill="#2563eb"
+                        radius={[10, 10, 0, 0]} // This rounds the top corners of the bars
+                    />
                 </BarChart>
             </ResponsiveContainer>
         </div>
