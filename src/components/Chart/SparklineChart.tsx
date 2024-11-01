@@ -1,6 +1,7 @@
 // src/components/SparklineChart.tsx
 import { AreaChart, Area, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { ChartContainer } from './ChartContainer';
+import React from "react";
 
 interface SparklineChartProps {
     data: any[];
@@ -30,8 +31,8 @@ export const SparklineChart: React.FC<SparklineChartProps> = ({
                     <Area
                         type="monotone"
                         dataKey={dataKey}
-                        stroke="#2563eb" // Dark blue outline
-                        fill="rgba(37, 99, 235, 0.3)" // Light blue fill
+                        stroke="#2563eb"
+                        fill="rgba(37, 99, 235, 0.3)"
                         strokeWidth={2}
                     />
                 </AreaChart>

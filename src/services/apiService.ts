@@ -10,7 +10,6 @@ export interface HotelBooking {
     country: string;
 }
 
-// Function to parse CSV data and convert to HotelBooking objects
 const parseCSVData = (csvData: string): HotelBooking[] => {
     const parseResult = Papa.parse(csvData, {
         header: true,
@@ -30,17 +29,14 @@ const parseCSVData = (csvData: string): HotelBooking[] => {
     }));
 };
 
-// Cache for storing the parsed CSV data
 let bookingsCache: HotelBooking[] | null = null;
 
 export const fetchHotelBookings = async (startDate: string, endDate: string): Promise<HotelBooking[]> => {
     try {
-        // If data is already cached, return it
         if (bookingsCache) {
             return filterBookingsByDateRange(bookingsCache, startDate, endDate);
         }
 
-        // Fetch CSV file
         const response = await fetch('/hotel_bookings.csv');
         if (!response.ok) {
             throw new Error('Failed to fetch CSV file');
@@ -64,7 +60,6 @@ export const fetchHotelBookings = async (startDate: string, endDate: string): Pr
     }
 };
 
-// Helper function to get month index from month name
 const getMonthIndex = (monthName: string): number => {
     const months = [
         'January', 'February', 'March', 'April', 'May', 'June',
@@ -73,7 +68,6 @@ const getMonthIndex = (monthName: string): number => {
     return months.indexOf(monthName);
 };
 
-// Helper function to filter bookings by date range
 const filterBookingsByDateRange = (bookings: HotelBooking[], startDate: string, endDate: string): HotelBooking[] => {
     const start = new Date(startDate);
     const end = new Date(endDate);

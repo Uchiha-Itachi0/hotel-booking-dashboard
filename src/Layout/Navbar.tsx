@@ -6,7 +6,6 @@ const Navbar: React.FC = () => {
         <nav className="fixed top-0 left-0 right-0 h-16 bg-white border-b z-50 px-4">
             <div className="flex items-center justify-between h-full max-w-7xl mx-auto">
                 <div className="flex items-center gap-2">
-                    <Menu className="h-6 w-6 text-gray-600" />
                     <h1 className="text-xl font-bold text-gray-800">Hotel Analytics</h1>
                 </div>
                 <div className="flex items-center gap-4">
