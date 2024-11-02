@@ -19,7 +19,6 @@ export const SparklineChart: React.FC<SparklineChartProps> = ({
     const [isZoomed, setIsZoomed] = useState(false);
 
     useEffect(() => {
-        // Update zoomedData when the input data prop changes
         setZoomedData(data);
         setIsZoomed(false);
     }, [data]);
@@ -31,7 +30,7 @@ export const SparklineChart: React.FC<SparklineChartProps> = ({
             const zoomedRange = data.filter((item) => {
                 const itemDate = new Date(item.date).getTime();
                 const clickedDateTime = new Date(clickedDate).getTime();
-                const range = 5 * 24 * 60 * 60 * 1000; // 5 days range
+                const range = 5 * 24 * 60 * 60 * 1000;
                 return (
                     itemDate >= clickedDateTime - range &&
                     itemDate <= clickedDateTime + range

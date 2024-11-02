@@ -1,12 +1,11 @@
-// src/hooks/useHotelData.ts
 
 import { useState, useEffect, useMemo } from 'react';
 import { fetchHotelBookings, HotelBooking } from '../services/apiService';
 import { formatDate, isDateInRange } from '../utils/dateUtils';
 
 interface DateRange {
-    start: string;
-    end: string;
+    start: string; // Start date of the range in 'YYYY-MM-DD' format
+    end: string;   // End date of the range in 'YYYY-MM-DD' format
 }
 
 interface UseHotelDataReturn {
@@ -20,6 +19,11 @@ interface UseHotelDataReturn {
     };
 }
 
+/**
+ * Custom hook to fetch and manage hotel booking data based on a date range.
+ * @param dateRange - The date range to filter bookings.
+ * @returns An object containing loading state, error, filtered data, country data, and totals.
+ */
 export const useHotelData = (dateRange: DateRange): UseHotelDataReturn => {
     const [data, setData] = useState<HotelBooking[]>([]);
     const [loading, setLoading] = useState(true);

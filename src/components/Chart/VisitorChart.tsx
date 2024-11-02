@@ -19,7 +19,6 @@ export const VisitorChart: React.FC<VisitorChartProps> = ({ data }) => {
     const [isZoomed, setIsZoomed] = useState(false);
 
     useEffect(() => {
-        // Update zoomedData when data changes
         setZoomedData(data);
         setIsZoomed(false);
     }, [data]);
@@ -31,7 +30,7 @@ export const VisitorChart: React.FC<VisitorChartProps> = ({ data }) => {
             const zoomedRange = data.filter((item) => {
                 const itemDate = new Date(item.date).getTime();
                 const clickedDateTime = new Date(clickedDate).getTime();
-                const range = 5 * 24 * 60 * 60 * 1000; // 5 days in milliseconds
+                const range = 5 * 24 * 60 * 60 * 1000;
                 return (
                     itemDate >= clickedDateTime - range &&
                     itemDate <= clickedDateTime + range
@@ -50,7 +49,7 @@ export const VisitorChart: React.FC<VisitorChartProps> = ({ data }) => {
 
     return (
         <ChartContainer title="Visitors per Day" className="col-span-2">
-            <div className="relative h-80"> {/* Use relative positioning */}
+            <div className="relative h-80">
                 {isZoomed && (
                     <button
                         onClick={resetZoom}

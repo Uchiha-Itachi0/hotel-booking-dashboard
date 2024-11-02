@@ -18,7 +18,7 @@ export const VisitorsByCountryChart: React.FC<VisitorsByCountryChartProps> = ({ 
                     <Bar
                         dataKey="visitors"
                         fill="#2563eb"
-                        radius={[10, 10, 0, 0]} // This rounds the top corners of the bars
+                        radius={[10, 10, 0, 0]}
                     />
                 </BarChart>
             </ResponsiveContainer>
