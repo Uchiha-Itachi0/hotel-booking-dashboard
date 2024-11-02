@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     LineChart,
     Line,
@@ -17,6 +17,12 @@ interface VisitorChartProps {
 export const VisitorChart: React.FC<VisitorChartProps> = ({ data }) => {
     const [zoomedData, setZoomedData] = useState(data);
     const [isZoomed, setIsZoomed] = useState(false);
+
+    useEffect(() => {
+        // Update zoomedData when data changes
+        setZoomedData(data);
+        setIsZoomed(false);
+    }, [data]);
 
     const handleChartClick = (event: any) => {
         if (event && event.activeLabel) {

@@ -1,6 +1,6 @@
+import React, { useState, useEffect } from "react";
 import { AreaChart, Area, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import { ChartContainer } from './ChartContainer';
-import React, { useState } from "react";
 
 interface SparklineChartProps {
     data: any[];
@@ -13,10 +13,16 @@ export const SparklineChart: React.FC<SparklineChartProps> = ({
                                                                   data,
                                                                   dataKey,
                                                                   total,
-                                                                  title
+                                                                  title,
                                                               }) => {
     const [zoomedData, setZoomedData] = useState(data);
     const [isZoomed, setIsZoomed] = useState(false);
+
+    useEffect(() => {
+        // Update zoomedData when the input data prop changes
+        setZoomedData(data);
+        setIsZoomed(false);
+    }, [data]);
 
     const handleChartClick = (event: any) => {
         if (event && event.activeLabel) {
@@ -25,7 +31,7 @@ export const SparklineChart: React.FC<SparklineChartProps> = ({
             const zoomedRange = data.filter((item) => {
                 const itemDate = new Date(item.date).getTime();
                 const clickedDateTime = new Date(clickedDate).getTime();
-                const range = 5 * 24 * 60 * 60 * 1000;
+                const range = 5 * 24 * 60 * 60 * 1000; // 5 days range
                 return (
                     itemDate >= clickedDateTime - range &&
                     itemDate <= clickedDateTime + range
